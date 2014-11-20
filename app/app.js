@@ -1,12 +1,18 @@
 'use strict';
 
-// Declare app level module which depends on views, and components
-angular.module('myApp', [
-  'ngRoute',
-  'myApp.view1',
-  'myApp.view2',
-  'myApp.version'
-]).
-config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/view1'});
-}]);
+var progressIndicatorApp = angular.module('progressIndicatorApp',[]);
+
+progressIndicatorApp.controller('IndicatorCtrl', function($scope){
+	$scope.expected = 0.6;
+	$scope.actual = 0.8;
+});
+
+
+progressIndicatorApp.directive('circularDirective', function () {
+    return {
+        link: function ($scope, element, attrs) {
+
+
+        }
+    };
+});
