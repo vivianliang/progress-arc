@@ -31,17 +31,10 @@ d3App.directive('learningd3svg', function(){
 		link: function(scope, element, attrs){
 		//var data = [attrs.act, attrs.expect];
 		var data = [30, 10, 15, 20, 25];
-		d3.select(element[0]).selectAll("p")
-			.data(data)
-			.enter()
-			.append("p")
-			.text(function(d){
-				return "I can count up to " + d;
-			})
-			.style("color", function(d){
-				if (d > 15) return "red";
-				else return "black";
-			});
+		var svg = d3.select(element[0])
+					.append("svg")
+					.attr("width", 500)
+					.attr("height", 50);
 		}
 	}
 });
