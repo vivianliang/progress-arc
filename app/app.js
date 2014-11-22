@@ -12,11 +12,12 @@ progressIndicatorApp.directive('ngArc', function(){
 
 			var width= 105,
 				height=105,
-				τ = 2 * Math.PI;
+				τ = 2 * Math.PI;				
 
 			// Expected
+			
 			var arc = d3.svg.arc()
-				.innerRadius(35)
+				.innerRadius(40)
 				.outerRadius(50)
 				.startAngle(0);
 			var svg = d3.select(element[0]).append("svg")
@@ -38,26 +39,34 @@ progressIndicatorApp.directive('ngArc', function(){
 					return attrs.expected*100 + "\%";
 				})
 				.attr("font-size","30px")
+				.attr("text-anchor", "middle")
 				.attr("y",+20)
-				.attr("x", -30);
 			svg.append("text").text("expected")
-				.attr("y",-10)
-				.attr("x",-30);
-
+				.attr("text-anchor", "middle")
+				.attr("y",-10);
 
 			foreground.transition().duration(1000).call(arcTween, attrs.expected*τ);
-
-
+			
 			// Actual
+
+			var arc_expected = d3.svg.arc()
+			    .innerRadius(30)
+			    .outerRadius(40)
+			    .startAngle(0);
+
 			var arc_actual = d3.svg.arc()
-			    .innerRadius(35)
+			    .innerRadius(40)
 			    .outerRadius(50)
 			    .startAngle(0);
 			var svg_actual = d3.select(element[0]).append("svg")
 			    .attr("width", width)
-			    .attr("height", width)
+			    .attr("height", height)
 			  .append("g")
 			    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+
+			var cir = svg_actual.append("circle")
+				.attr("fill", "#E6E6E6")
+				.attr("r", width/3);
 
 			var background_actual = svg_actual.append("path")
 			    .datum({endAngle: τ})
@@ -87,12 +96,14 @@ progressIndicatorApp.directive('ngArc', function(){
 					return attrs.actual*100 + "\%";
 				})
 				.attr("font-size","30px")
+				.attr("text-anchor", "middle")
 				.attr("y",+20)
-				.attr("x", -20);
 			svg_actual.append("text").text("actual")
-				.attr("y",-10)
-				.attr("x",-20);
+				.attr("text-anchor", "middle")
+				.attr("y",-10);				
 
+
+			
 			foreground_actual.transition().duration(1000).call(arcTween, attrs.actual*τ);
 
 			// arctween: http://bl.ocks.org/mbostock/5100636
