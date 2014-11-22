@@ -1,5 +1,4 @@
 # progress-arc
-===========
 
 AngularJS directive that renders a circular progress
 indicator.
