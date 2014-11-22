@@ -4,26 +4,19 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Circular Indicator App</title>
-
   <link rel="stylesheet" href="app.css">
   <script src="bower_components/angular/angular.js"></script>
-  <script src="app.js"></script>
   <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js" charset="utf-8"></script>
+  <script src="app.js"></script>
 </head>
 <body ng-controller="IndicatorCtrl">
  
-  <div>
-    Expected: <input type="number" min="0" max="1" ng-model="expected">
-  </div>
-  <div>
-    Actual: <input type="number" min="0" max="1" ng-model="actual">
-  </div>
+  <ng-arc actual=".75" expected="1"></ng-arc>
+  <p>
+  <ng-arc actual=".51" expected="1"></ng-arc>
+  <p>
+  <ng-arc actual=".45" expected="1"></ng-arc>
 
-  <p>Expected: {{expected}}</p>
-  <p>Actual: {{actual}}</p>
-
-
-  <ng-arc ng-model="expected" act=".82" expect=".62"></ng-arc>
 
 </body>
 </html>
