@@ -9,6 +9,7 @@ progressIndicatorApp.controller('IndicatorCtrl', function($scope){
 
 progressIndicatorApp.directive('ngArc', function(){
 	return {
+		restrict: 'E',
 		link: function (scope, element, attrs){
 
 			var width = 200,

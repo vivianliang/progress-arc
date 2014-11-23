@@ -7,6 +7,7 @@ module.exports = function(config){
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-route/angular-route.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
+      'http://mbostock.github.com/d3/d3.js',
       'app/components/**/*.js',
       'app/**.js'
     ],

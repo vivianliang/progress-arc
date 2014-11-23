@@ -27,20 +27,15 @@ describe('progressIndicatorApp module', function() {
 		beforeEach(inject(function($rootScope, $compile) {
 	    	scope = $rootScope.$new();
 	    	element=
-	    		'<ng-arc actual="{{actual}}" expected="1"></ng-arc>';
-	    	scope.actual=.75;
+	    		'<ng-arc actual=".50" expected="1" ng-model="test"></ng-arc>';
 	    	element = $compile(element)(scope);
     		scope.$digest();
 		}));
 
-		describe('with the first given value', function() {
-		  it("should compute the size to create other values", function() {
-		    //var isolated = element.isolateScope();
-		    //expect(isolated.values.ele_width).toBe(200);
-		    //expect(isolated.values.ele_height).toBe(200);
-		    expect(element.attr('actual')).toBe('.75');
-		    expect(element.attr('expected')).toBe('1');
-		  });
+		
+		it("should compute the size to create other values", function() {
+			expect(element.attr('actual')).toBe('.50');
+			expect(element.attr('expected')).toBe('1');
 		});
 
 	});
