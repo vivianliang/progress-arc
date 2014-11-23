@@ -161,35 +161,25 @@ progressIndicatorApp.directive('ngArcDynamic', function(){
 			svg_actual.append("text").text("progress")
 				.attr("font-size","15px")
 				.attr("text-anchor", "middle")
-				.attr("y",+10);				
-var action = function (){
+				.attr("y",+10);
 
-			foreground_expected.transition().duration(1000).call(arcTween_expected, attrs.expected*tau);
-			foreground_actual.transition().duration(1000).call(arcTween_actual, attrs.actual*tau);
+			var action = function (){
 
-			// arctween: http://bl.ocks.org/mbostock/5100636
-			function arcTween_expected(transition, newAngle) {
-			  transition.attrTween("d", function(d) {
-			    var interpolate = d3.interpolate(d.endAngle, newAngle);
-			    return function(t) {
-			      d.endAngle = interpolate(t);
-			      return arc_expected(d);
-			    };
-			  });
+				foreground_expected.transition().duration(1000).call(arcTween, attrs.expected*tau, arc_expected);
+				foreground_actual.transition().duration(1000).call(arcTween, attrs.actual*tau, arc_actual);
+
+				function arcTween(transition, newAngle, arc) {
+				  transition.attrTween("d", function(d) {
+				    var interpolate = d3.interpolate(d.endAngle, newAngle);
+				    return function(t) {
+				      d.endAngle = interpolate(t);
+				      return arc(d);
+				    };
+				  });
+				}
+
 			}
-
-			function arcTween_actual(transition, newAngle) {
-			  transition.attrTween("d", function(d) {
-			    var interpolate = d3.interpolate(d.endAngle, newAngle);
-			    return function(t) {
-			      d.endAngle = interpolate(t);
-			      return arc_actual(d);
-			    };
-			  });
-			}
-
-		}
-}		
+		}		
 
 	}
 
