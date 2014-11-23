@@ -13,7 +13,7 @@ progressIndicatorApp.directive('ngArc', function(){
 
 			var width = 200,
 				height = 200,
-				τ = 2 * Math.PI;				
+				tau = 2 * Math.PI;				
 
 			var arc_expected = d3.svg.arc()
 			    .innerRadius(40)
@@ -35,21 +35,19 @@ progressIndicatorApp.directive('ngArc', function(){
 				.attr("fill", "#E6E6E6")
 				.attr("r", width/6);
 
-
-			/*
-			 * The colors of the outer ring should change to orange or red
-			 * when the actual is more than 25% or 50% behind expected.
-			*/
-
 			var foreground_expected = svg_actual.append("path")
-				.datum({endAngle: .9 * τ})
+				.datum({endAngle: 0 * tau})
 			    .style("fill", function(d){
 					return "#6cbb3c";
 			    })
 			    .attr("d", arc_expected);
 
+			/*
+			 * The colors of the outer ring should change to orange or red
+			 * when the actual is more than 25% or 50% behind expected.
+			*/
 			var foreground_actual = svg_actual.append("path")
-			    .datum({endAngle: 0 * τ})
+			    .datum({endAngle: 0 * tau})
 			    .style("fill", function(d){
 			    	if (attrs.actual  < attrs.expected*.75 && attrs.actual >= attrs.expected*.50){
 			    		return "orange";
@@ -74,26 +72,15 @@ progressIndicatorApp.directive('ngArc', function(){
 				.attr("y",+10);				
 
 
-			foreground_expected.transition().duration(1000).call(arcTween_expected, attrs.expected*τ);
-			foreground_actual.transition().duration(1000).call(arcTween_actual, attrs.actual*τ);
+			foreground_expected.transition().duration(1000).call(arcTween, attrs.expected*tau, arc_expected);
+			foreground_actual.transition().duration(1000).call(arcTween, attrs.actual*tau, arc_actual);
 
-			// arctween: http://bl.ocks.org/mbostock/5100636
-			function arcTween_expected(transition, newAngle) {
+			function arcTween(transition, newAngle, arc) {
 			  transition.attrTween("d", function(d) {
 			    var interpolate = d3.interpolate(d.endAngle, newAngle);
 			    return function(t) {
 			      d.endAngle = interpolate(t);
-			      return arc_expected(d);
-			    };
-			  });
-			}
-
-			function arcTween_actual(transition, newAngle) {
-			  transition.attrTween("d", function(d) {
-			    var interpolate = d3.interpolate(d.endAngle, newAngle);
-			    return function(t) {
-			      d.endAngle = interpolate(t);
-			      return arc_actual(d);
+			      return arc(d);
 			    };
 			  });
 			}
@@ -116,7 +103,7 @@ progressIndicatorApp.directive('ngArcDynamic', function(){
 
 			var width = 200,
 				height = 200,
-				τ = 2 * Math.PI;				
+				tau = 2 * Math.PI;				
 
 			var arc_expected = d3.svg.arc()
 			    .innerRadius(40)
@@ -145,14 +132,14 @@ progressIndicatorApp.directive('ngArcDynamic', function(){
 			*/
 
 			var foreground_expected = svg_actual.append("path")
-				.datum({endAngle: .9 * τ})
+				.datum({endAngle: .9 * tau})
 			    .style("fill", function(d){
 					return "#6cbb3c";
 			    })
 			    .attr("d", arc_expected);
 
 			var foreground_actual = svg_actual.append("path")
-			    .datum({endAngle: 0 * τ})
+			    .datum({endAngle: 0 * tau})
 			    .style("fill", function(d){
 			    	if (attrs.actual  < attrs.expected*.75 && attrs.actual >= attrs.expected*.50){
 			    		return "orange";
@@ -177,8 +164,8 @@ progressIndicatorApp.directive('ngArcDynamic', function(){
 				.attr("y",+10);				
 var action = function (){
 
-			foreground_expected.transition().duration(1000).call(arcTween_expected, attrs.expected*τ);
-			foreground_actual.transition().duration(1000).call(arcTween_actual, attrs.actual*τ);
+			foreground_expected.transition().duration(1000).call(arcTween_expected, attrs.expected*tau);
+			foreground_actual.transition().duration(1000).call(arcTween_actual, attrs.actual*tau);
 
 			// arctween: http://bl.ocks.org/mbostock/5100636
 			function arcTween_expected(transition, newAngle) {

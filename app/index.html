@@ -11,23 +11,10 @@
 </head>
 <body ng-controller="IndicatorCtrl">
  
-<ng-arc actual=".75" expected="1"></ng-arc>
-<ng-arc actual=".50" expected=".75"></ng-arc>
-<p>
-<ng-arc actual=".49" expected="1"></ng-arc>
-<ng-arc actual=".10" expected="1"></ng-arc>
-
-<hr>
-
-<p>
-Expected: <input type="number" min="0" max="1" ng-model="expected_val" placeholder=".127">
-{{expected_val}}
-<p>
-Actual: <input type="number" min="0" max="1" ng-model="actual_val" placeholder=".5">
-{{actual_val}}
-<p>
-<ng-arc-dynamic actual="{{actual_val}}" expected="{{expected_val}}"></ng-arc-dynamic>
-
-
+  <ng-arc actual=".75" expected="1"></ng-arc>
+  <ng-arc actual=".50" expected=".75"></ng-arc>
+  <p>
+  <ng-arc actual=".49" expected="1"></ng-arc>
+  <ng-arc actual=".10" expected="1"></ng-arc>
 </body>
 </html>
