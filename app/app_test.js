@@ -18,3 +18,5 @@ describe('progressIndicatorApp module', function() {
 
   	});
 });
+
+// TODO: tests for green, orange, red based on expected and actual
