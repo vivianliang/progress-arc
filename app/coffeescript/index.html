@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" ng-app="progressIndicatorApp" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Circular Indicator App</title>
+  <link rel="stylesheet" href="../app.css">
+  <script src="../bower_components/angular/angular.js"></script>
+  <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js" charset="utf-8"></script>
+  <script src="coffee_app.js"></script>
+</head>
+<body ng-controller="IndicatorCtrl">
+ 
+  <ng-arc actual=".75" expected="1"></ng-arc>
+  <ng-arc actual=".50" expected=".75"></ng-arc>
+  <p>
+  <ng-arc actual=".49" expected="1"></ng-arc>
+  <ng-arc actual=".10" expected="1"></ng-arc>
+</body>
+</html>
