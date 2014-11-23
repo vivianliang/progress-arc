@@ -16,13 +16,13 @@ progressIndicatorApp.directive('ngArc', function(){
 				tau = 2 * Math.PI;				
 
 			var arc_expected = d3.svg.arc()
-			    .innerRadius(40)
-			    .outerRadius(45)
+			    .innerRadius(width/5)
+			    .outerRadius(width/5+5)
 			    .startAngle(0);
 
 			var arc_actual = d3.svg.arc()
-			    .innerRadius(47)
-			    .outerRadius(55)
+			    .innerRadius(width/4-3)
+			    .outerRadius(width/4+5)
 			    .startAngle(0);
 
 			var svg_actual = d3.select(element[0]).append("svg")
