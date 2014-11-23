@@ -19,7 +19,7 @@ describe('progressIndicatorApp module', function() {
   	});
 
 
-	describe('directive: ngArc', function(){
+	describe('ngArc directive', function(){
 		var element, scope;
 
 		beforeEach(module('progressIndicatorApp'));
@@ -32,10 +32,18 @@ describe('progressIndicatorApp module', function() {
     		scope.$digest();
 		}));
 
-		
-		it("should compute the size to create other values", function() {
+		it("should have the correct attribute values", function() {
 			expect(element.attr('actual')).toBe('.50');
 			expect(element.attr('expected')).toBe('1');
+		});
+
+		it("should have an svg element of correct width and height", function() {
+			expect(element.find('svg').attr('width')).toBe('200');
+			expect(element.find('svg').attr('height')).toBe('200');
+		});
+
+		it("should have an svg element of correct width and height", function() {
+			expect(element.find('g').attr('transform')).toBe('translate(100,100)');
 		});
 
 	});
