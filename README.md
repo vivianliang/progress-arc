@@ -18,3 +18,19 @@ Please also animate the arcs and color transitions, add unit tests, and
 have reasonable handling of unexpected values.
 
 ![Alt text](https://github.com/vivianliang/progress-arc/blob/master/arc.png)
+
+## Files
+
+Examples of above implementation
+
+	app/index.html
+	app/app.js
+
+Examples of above implementation in CoffeeScript
+
+	app/coffeescript/index.html
+	app/coffeescript/coffee_app.coffee compiles to app/coffeescript/coffee_app.js
+
+### Unit Tests
+
+	app/app_test.js
