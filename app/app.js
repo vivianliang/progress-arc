@@ -3,13 +3,17 @@
 var progressIndicatorApp = angular.module('progressIndicatorApp',[]);
 
 progressIndicatorApp.controller('IndicatorCtrl', function($scope){
-	$scope.expected_val = 1;
-	$scope.actual_val = .72;
+	$scope.expected = 1;
+	$scope.actual = .72;
 });
 
 progressIndicatorApp.directive('ngArc', function(){
 	return {
 		restrict: 'E',
+		scope: {
+			actual: '=',
+			expected: '='
+		},
 		link: function (scope, element, attrs){
 
 			if (!attrs.expected || isNaN(attrs.expected) || attrs.expected < 0){
@@ -71,21 +75,67 @@ progressIndicatorApp.directive('ngArc', function(){
 			    })
 			    .attr("d", arc_actual);
 
+
+
 			svg.append("text")
 				.text(function(d){
-					return attrs.actual*100 + "\%";
+					return attrs.actual*100;
 				})
 				.attr("font-size","20px")
+				.attr("font-family", "Open Sans")
 				.attr("text-anchor", "middle")
-				.attr("y",0)
-			svg.append("text").text("progress")
-				.attr("font-size","15px")
+				.attr("x",-3)
+				.attr("y",+1)
+			svg.append("text").text("\%")
+				.attr("font-family", "Open Sans")
+				.attr("font-size","12px")
+				.attr("x", function(d){
+					if (attrs.actual*100 < 10) return "+5";
+					else if (attrs.actual*100 > 99) return +"+15";
+					else return "+10";
+				})
+				//.attr("x",+10)
+				.attr("y",+1)				
+			svg.append("text").text("Progress")
+				.attr("font-family", "Open Sans")
+				.attr("font-size","10px")
 				.attr("text-anchor", "middle")
-				.attr("y",+10);				
+				.attr("y",+12);				
 
 
 			foreground_expected.transition().duration(1000).call(arcTween, attrs.expected*tau, arc_expected);
 			foreground_actual.transition().duration(1000).call(arcTween, attrs.actual*tau, arc_actual);
+
+			// Expected rounded arc ends
+		    var start_circle = svg.append("circle") 
+		          .attr('id','circle_expected_start')
+		          .attr("r", ((width/5+5)-(width/5))/2)
+		          .attr('fill',"#6cbb3c")
+		          .attr("cx", arc_expected.centroid({startAngle: 0, endAngle: 0})[0])
+		          .attr("cy", arc_expected.centroid({startAngle: 0, endAngle: 0})[1]);
+
+/*
+		    var end_circle = svg.append("circle") 
+		          .attr('id','circle_expected_end')
+		          .attr("r", ((width/5+5)-(width/5))/2)
+		          .attr('fill',"#57893e")
+		          .attr("cx",  arc_expected.centroid({startAngle: 0, endAngle: attrs.expected*tau})[0])
+		          .attr("cy", arc_expected.centroid({startAngle: 0,endAngle: attrs.expected*tau})[1]);
+		    end_circle.append("path").datum({endAngle: 0 * tau}).attr("d", arc_expected);
+		    //end_circle.transition().duration(1000).call(arcTween, attrs.expected*tau, arc_expected);
+*/
+		    
+			// Actual rounded arc ends
+		    var start_circle = svg.append("circle") 
+		          .attr('id','circle_expected_start')
+		          .attr("r", ((width/4+5)-(width/4-3))/2)
+		          .attr('fill',function(d){
+			    	if (attrs.actual  < attrs.expected*.75 && attrs.actual >= attrs.expected*.50) return "orange";
+			    	else if (attrs.actual < attrs.expected*.50) return "red";
+					else return "green";
+			    	})
+		          .attr("cx", arc_actual.centroid({startAngle: 0, endAngle: 0})[0])
+		          .attr("cy", arc_actual.centroid({startAngle: 0, endAngle: 0})[1]);
 
 			function arcTween(transition, newAngle, arc) {
 			  transition.attrTween("d", function(d) {
@@ -107,11 +157,12 @@ progressIndicatorApp.directive('ngArc', function(){
 
 progressIndicatorApp.directive('ngArcDynamic', function(){
 	return {
+		restrict: 'E',
+		scope: {
+			actual: '=',
+			expected: '='
+		},
 		link: function (scope, element, attrs){
-
-			attrs.$observe('expected_val', action);
-			//attrs.$observe('actual_val', action);
-
 
 			var width = 200,
 				height = 200,
@@ -144,7 +195,7 @@ progressIndicatorApp.directive('ngArcDynamic', function(){
 			*/
 
 			var foreground_expected = svg_actual.append("path")
-				.datum({endAngle: .9 * tau})
+				.datum({endAngle: 0 * tau})
 			    .style("fill", function(d){
 					return "#6cbb3c";
 			    })
@@ -175,7 +226,7 @@ progressIndicatorApp.directive('ngArcDynamic', function(){
 				.attr("text-anchor", "middle")
 				.attr("y",+10);
 
-			var action = function (){
+			//var action = function (){
 
 				foreground_expected.transition().duration(1000).call(arcTween, attrs.expected*tau, arc_expected);
 				foreground_actual.transition().duration(1000).call(arcTween, attrs.actual*tau, arc_actual);
@@ -190,7 +241,7 @@ progressIndicatorApp.directive('ngArcDynamic', function(){
 				  });
 				}
 
-			}
+			//}
 		}		
 
 	}

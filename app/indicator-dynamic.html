@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Circular Indicator App</title>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="app.css">
   <script src="bower_components/angular/angular.js"></script>
   <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js" charset="utf-8"></script>
@@ -26,6 +27,6 @@
   Actual: <input type="number" min="0" max="1" ng-model="actual_val" placeholder=".5">
   {{actual_val}}
   <p>
-  <ng-arc-dynamic actual="{{actual_val}}" expected="{{expected_val}}"></ng-arc-dynamic>
+  <ng-arc-dynamic actual="{{actual}}" expected="{{expected}}"></ng-arc-dynamic>
 </body>
 </html>
