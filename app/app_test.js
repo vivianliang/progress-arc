@@ -24,6 +24,10 @@ describe('progressIndicatorApp module', function() {
 
 		beforeEach(module('progressIndicatorApp'));
 
+		// Added ng-model attribute to ng-arc directive to avoid the following
+		// error:
+		//   Error: [$compile:ctreq] Controller 'ngModel', required by directive 'ngArc',
+		//   can't be found!
 		beforeEach(inject(function($rootScope, $compile) {
 	    	scope = $rootScope.$new();
 	    	element=

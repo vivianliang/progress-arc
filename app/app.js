@@ -12,6 +12,17 @@ progressIndicatorApp.directive('ngArc', function(){
 		restrict: 'E',
 		link: function (scope, element, attrs){
 
+			if (!attrs.expected || isNaN(attrs.expected) || attrs.expected < 0){
+				attrs.expected = 0;
+			} else if (attrs.expected > 1){
+				attrs.expected = 1;
+			}
+			if (!attrs.actual || isNaN(attrs.actual) || attrs.actual < 0){
+				attrs.actual = 0;
+			} else if (attrs.actual > 1){
+				attrs.actual = 1;
+			}
+
 			var width = 200,
 				height = 200,
 				tau = 2 * Math.PI;				
