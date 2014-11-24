@@ -25,12 +25,12 @@ Example:
 
 ## Files
 
-Examples of above implementation
+Implementaton in JavaScript:
 
 	app/index.html
 	app/app.js
 
-Examples of above implementation in CoffeeScript
+Implementation in CoffeeScript:
 
 	app/coffeescript/index.html
 	app/coffeescript/coffee_app.coffee compiles to app/coffeescript/coffee_app.js
