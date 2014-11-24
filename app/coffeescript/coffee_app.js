@@ -10,6 +10,20 @@
     return {
       link: function(scope, element, attrs) {
         var arcTween, arc_actual, arc_expected, cir, foreground_actual, foreground_expected, height, svg_actual, tau, width;
+        if (!attrs.expected || isNaN(attrs.expected) || attrs.expected < 0) {
+          attrs.expected = 0;
+        } else {
+          if (attrs.expected > 1) {
+            attrs.expected = 1;
+          }
+        }
+        if (!attrs.actual || isNaN(attrs.actual) || attrs.actual < 0) {
+          attrs.actual = 0;
+        } else {
+          if (attrs.actual > 1) {
+            attrs.actual = 1;
+          }
+        }
         arcTween = function(transition, newAngle, arc) {
           transition.attrTween("d", function(d) {
             var interpolate;

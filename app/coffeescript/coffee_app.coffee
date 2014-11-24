@@ -5,6 +5,13 @@ progressIndicatorApp.controller "IndicatorCtrl", ($scope) ->
 progressIndicatorApp.directive "ngArc", ->
   link: (scope, element, attrs) ->
 
+    if not attrs.expected or isNaN(attrs.expected) or attrs.expected < 0
+      attrs.expected = 0
+    else attrs.expected = 1  if attrs.expected > 1
+    if not attrs.actual or isNaN(attrs.actual) or attrs.actual < 0
+      attrs.actual = 0
+    else attrs.actual = 1  if attrs.actual > 1
+
     arcTween = (transition, newAngle, arc) ->
       transition.attrTween "d", (d) ->
         interpolate = d3.interpolate(d.endAngle, newAngle)
