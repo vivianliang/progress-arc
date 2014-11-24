@@ -37,17 +37,17 @@ progressIndicatorApp.directive('ngArc', function(){
 			    .outerRadius(width/4+5)
 			    .startAngle(0);
 
-			var svg_actual = d3.select(element[0]).append("svg")
+			var svg = d3.select(element[0]).append("svg")
 			    .attr("width", width)
 			    .attr("height", height)
 			  .append("g")
 			    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
-			var cir = svg_actual.append("circle")
+			var cir = svg.append("circle")
 				.attr("fill", "#E6E6E6")
 				.attr("r", width/6);
 
-			var foreground_expected = svg_actual.append("path")
+			var foreground_expected = svg.append("path")
 				.datum({endAngle: 0 * tau})
 			    .style("fill", function(d){
 					return "#6cbb3c";
@@ -58,7 +58,7 @@ progressIndicatorApp.directive('ngArc', function(){
 			 * The colors of the outer ring should change to orange or red
 			 * when the actual is more than 25% or 50% behind expected.
 			*/
-			var foreground_actual = svg_actual.append("path")
+			var foreground_actual = svg.append("path")
 			    .datum({endAngle: 0 * tau})
 			    .style("fill", function(d){
 			    	if (attrs.actual  < attrs.expected*.75 && attrs.actual >= attrs.expected*.50){
@@ -71,14 +71,14 @@ progressIndicatorApp.directive('ngArc', function(){
 			    })
 			    .attr("d", arc_actual);
 
-			svg_actual.append("text")
+			svg.append("text")
 				.text(function(d){
 					return attrs.actual*100 + "\%";
 				})
 				.attr("font-size","20px")
 				.attr("text-anchor", "middle")
 				.attr("y",0)
-			svg_actual.append("text").text("progress")
+			svg.append("text").text("progress")
 				.attr("font-size","15px")
 				.attr("text-anchor", "middle")
 				.attr("y",+10);				
