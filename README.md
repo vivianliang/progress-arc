@@ -17,6 +17,10 @@ or 50% behind expected.
 Please also animate the arcs and color transitions, add unit tests, and
 have reasonable handling of unexpected values.
 
+Example:
+
+     <ng-arc actual=".50" expected=".75"></ng-arc>
+
 ![Alt text](https://github.com/vivianliang/progress-arc/blob/master/arc.png)
 
 ## Files
