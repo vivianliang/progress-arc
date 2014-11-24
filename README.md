@@ -38,3 +38,7 @@ Implementation in CoffeeScript:
 ### Unit Tests
 
 	app/app_test.js
+
+## Handling of unexpected values
+
+If "actual" or "expected" attributes are less than 0, not numbers, or not specified, they default to 0. If they are greater than 1, they default to 1.
