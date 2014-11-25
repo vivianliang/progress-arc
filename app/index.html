@@ -7,21 +7,27 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="app.css">
   <script src="bower_components/angular/angular.js"></script>
-  <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js" charset="utf-8"></script>
+  <!--<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js" charset="utf-8"></script>-->
+  <script type="text/javascript" src="d3.js" charset="utf-8"></script>
   <script src="app.js"></script>
 </head>
 <body ng-controller="IndicatorCtrl">
  
-  <ng-arc actual=".75" expected="1"></ng-arc>
-  <ng-arc actual=".50" expected=".75"></ng-arc>
   <p>
-  <ng-arc actual=".49" expected="1"></ng-arc>
+  Expected: <input type="number" min="0" max="1" ng-model="expected" placeholder="0.75" step=".1">
+  {{expected}}
+  <p>
+  Actual: <input type="number" min="0" max="1" ng-model="actual" placeholder="0.75" step=".1">
+  {{actual}}
+  <p>
+  <ng-arc actual="actual" expected="expected"></ng-arc>
+  <hr>
+  <ng-arc actual=".50" expected=".8"></ng-arc>
   <ng-arc actual=".10" expected="1"></ng-arc>
-  <p>
+
   <ng-arc actual="1.2" expected=".2"></ng-arc>
-  <ng-arc actual="-2" expected="1.7"></ng-arc>
-  <ng-arc actual=".8"></ng-arc>
-  <ng-arc actual="blah" expected=".75"></ng-arc>
+  <ng-arc actual="-2" expected=".75"></ng-arc>
+  
 
 </body>
 </html>

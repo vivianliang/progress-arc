@@ -45,7 +45,7 @@ Implementation in CoffeeScript:
 
 ## Playground:
 
-	app/indicator-dynamic.html
+	app/index.html
 
 ### Unit Tests
 
@@ -53,14 +53,4 @@ Implementation in CoffeeScript:
 
 ## Handling of unexpected values
 
-For ng-arc directive:
-
 If "actual" or "expected" attributes are less than 0, not numbers, or not specified, they default to 0. If they are greater than 1, they default to 1.
-
-For ng-arc-dynamic directive:
-
-The user will get an alert for bad behavior.
-
-## Note
-
-ng-arc-dynamic is intended to replace ng-arc. They're only apart for now because the former is not well tested yet.
