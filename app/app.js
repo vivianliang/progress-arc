@@ -16,16 +16,8 @@ progressIndicatorApp.directive('ngArc', function(){
 		},
 		link: function (scope, element, attrs){
 
-			if (!attrs.expected || isNaN(attrs.expected) || attrs.expected < 0){
-				attrs.expected = 0;
-			} else if (attrs.expected > 1){
-				attrs.expected = 1;
-			}
-			if (!attrs.actual || isNaN(attrs.actual) || attrs.actual < 0){
-				attrs.actual = 0;
-			} else if (attrs.actual > 1){
-				attrs.actual = 1;
-			}
+		    var local_actual = attrs.actual;
+		    var local_expected = attrs.expected;
 
 			var width = 200,
 				height = 200,
@@ -69,16 +61,16 @@ progressIndicatorApp.directive('ngArc', function(){
 			    })
 			    .attr("d", arc_actual);
 
-			svg.append("text")
+			var text = svg.append("text")
 				.text(function(d){
-					return attrs.actual*100;
+					return 0;
 				})
 				.attr("font-size","20px")
 				.attr("font-family", "Open Sans")
 				.attr("text-anchor", "middle")
 				.attr("x",-3)
 				.attr("y",+1)
-			svg.append("text").text("\%")
+			var percent = svg.append("text").text("\%")
 				.attr("font-family", "Open Sans")
 				.attr("font-size","12px")
 				.attr("x", function(d){
@@ -92,9 +84,6 @@ progressIndicatorApp.directive('ngArc', function(){
 				.attr("font-size","10px")
 				.attr("text-anchor", "middle")
 				.attr("y",+12);				
-
-		    var local_actual = attrs.actual;
-		    var local_expected = attrs.expected;
 
 			// Expected rounded arc end (start)
 		    var expected_start_cir = svg.append("circle") 
@@ -156,6 +145,16 @@ progressIndicatorApp.directive('ngArc', function(){
 					actual_start_cir.attr('fill',function(d){
 							return get_color();
 			    	});
+
+					// Change text and percent sign location
+					text.text(function(d){
+						return newValue*100;
+					});
+					percent.attr("x", function(d){
+						if (newValue*100 < 10) return "+5";
+						else if (newValue*100 > 99) return +"+15";
+						else return "+10";
+					})
 
 					foreground_actual.transition().duration(1000).call(arcTween, newValue*tau, arc_actual);
                 }
