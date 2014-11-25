@@ -23,7 +23,7 @@ Example:
 
 	<input type="number" min="0" max="1" ng-model="expected" step=".1">
 	<input type="number" min="0" max="1" ng-model="actual" placeholder=".5" step=".1">
-	<ng-arc-dynamic actual="actual" expected="expected"></ng-arc-dynamic>
+	<ng-arc actual="actual" expected="expected"></ng-arc>
 
 ![Alt text](https://github.com/vivianliang/progress-arc/blob/master/arc1.png)
 ![Alt text](https://github.com/vivianliang/progress-arc/blob/master/arc2.png)
