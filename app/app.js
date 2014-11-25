@@ -241,7 +241,7 @@ progressIndicatorApp.directive('ngArcDynamic', function(){
 			foreground_actual.transition().duration(1000).call(arcTween, attrs.actual*tau, arc_actual);
 
 			// Expected rounded arc end (start)
-		    svg.append("circle") 
+		    var expected_start_cir = svg.append("circle") 
 		        .attr('id','circle_expected_start')
 		        .attr("r", (expected_outer_r-expected_inner_r)/2)
 		        .attr('fill',"#6cbb3c")
@@ -259,7 +259,7 @@ progressIndicatorApp.directive('ngArcDynamic', function(){
 		    //end_circle.transition().duration(1000).call(arcTween, attrs.expected*tau, arc_expected);
 */
 			// Actual rounded arc end (start)
-		    svg.append("circle") 
+		    var actual_start_cir = svg.append("circle") 
 		        .attr('id','circle_actual_start')
 		        .attr("r", (actual_outer_r-actual_inner_r)/2)
 		        .attr('fill',function(d){
@@ -268,11 +268,18 @@ progressIndicatorApp.directive('ngArcDynamic', function(){
 		        .attr("cx", arc_actual.centroid({startAngle: 0, endAngle: 0})[0])
 		        .attr("cy", arc_actual.centroid({startAngle: 0, endAngle: 0})[1]);
 
+
+		    var local_actual = attrs.actual;
+		    var local_expected = attrs.expected;
 			// The colors of the outer ring should change to orange or red
 			// when the actual is more than 25% or 50% behind expected.
 			function get_color(){
+				/*
 					if (attrs.actual  < attrs.expected*.75 && attrs.actual >= attrs.expected*.50) return "orange";
 			    	else if (attrs.actual < attrs.expected*.50) return "red";
+					else return "green";*/
+					if (local_actual  < local_expected*.75 && local_actual >= local_expected*.50) return "orange";
+			    	else if (local_actual < local_expected*.50) return "red";
 					else return "green";
 			};
 
@@ -289,32 +296,35 @@ progressIndicatorApp.directive('ngArcDynamic', function(){
             scope.$watch('actual', function(newValue, oldValue) {
             	
                 if (newValue){
+						local_actual = newValue;
+                
+			    		foreground_actual.datum({endAngle: oldValue * tau})
+			    			.style("fill", function(d){
+			    				return get_color();
+			    			})
+			    			.attr("d", arc_actual);
 
-                		var foreground_actual = svg.append("path")
-			    		.datum({endAngle: oldValue * tau})
-			    		.style("fill", function(d){
-			    		return get_color();
-			    		})
-			    		.attr("d", arc_actual);
+					actual_start_cir.attr('fill',function(d){
+							return get_color();
+			    	});
 
 					foreground_actual.transition().duration(1000).call(arcTween, newValue*tau, arc_actual);
-                    console.log("I see a data change! new" +newValue + "old"+ oldValue);
+                    console.log("I see a data change! new" +newValue + "old"+ oldValue+"attrs.expected"+attrs.expected);
                 }
             }, true);
 
 			scope.$watch('expected', function(newValue, oldValue) {
 
                 if (newValue){
-                	attrs.expected = newValue;
-					var foreground_expected = svg.append("path")
+                	local_expected = newValue;
+					foreground_expected
 						.datum({endAngle: oldValue * tau})
 					    .style("fill", function(d){
 							return "#6cbb3c";
-					    })
-					    .attr("d", arc_expected);
+					    });
 
-					foreground_actual.transition().duration(1000).call(arcTween, newValue*tau, arc_expected);
-                    console.log("I see a data change! new" +newValue + "old"+ oldValue);
+					foreground_expected.transition().duration(1000).call(arcTween, newValue*tau, arc_expected);
+                    console.log("I see a data change! new" +newValue + "old"+ oldValue+"attrs.actual"+attrs.actual);
                 }
             }, true);
 			

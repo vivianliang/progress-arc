@@ -7,16 +7,17 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="app.css">
   <script src="bower_components/angular/angular.js"></script>
-  <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js" charset="utf-8"></script>
+  <!--<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js" charset="utf-8"></script>-->
+  <script type="text/javascript" src="d3.js" charset="utf-8"></script>
   <script src="app.js"></script>
 </head>
 <body ng-controller="IndicatorCtrl">
  
   <p>
-  Expected: <input type="number" min="0" max="1" ng-model="expected" placeholder=".127">
+  Expected: <input type="number" min="0" max="1" ng-model="expected" placeholder=".75" step=".1">
   {{expected}}
   <p>
-  Actual: <input type="number" min="0" max="1" ng-model="actual" placeholder=".5">
+  Actual: <input type="number" min="0" max="1" ng-model="actual" placeholder=".5" step=".1">
   {{actual}}
   <p>
   <ng-arc-dynamic actual="actual" expected="expected"></ng-arc-dynamic>
