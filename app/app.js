@@ -29,16 +29,20 @@ progressIndicatorApp.directive('ngArc', function(){
 
 			var width = 200,
 				height = 200,
-				tau = 2 * Math.PI;				
+				tau = 2 * Math.PI;
+			var expected_inner_r = width/5,
+				expected_outer_r = width/5+5,
+				actual_inner_r = width/4-3,
+				actual_outer_r = width/4+5;
 
 			var arc_expected = d3.svg.arc()
-			    .innerRadius(width/5)
-			    .outerRadius(width/5+5)
+			    .innerRadius(expected_inner_r)
+			    .outerRadius(expected_outer_r)
 			    .startAngle(0);
 
 			var arc_actual = d3.svg.arc()
-			    .innerRadius(width/4-3)
-			    .outerRadius(width/4+5)
+			    .innerRadius(actual_inner_r)
+			    .outerRadius(actual_outer_r)
 			    .startAngle(0);
 
 			var svg = d3.select(element[0]).append("svg")
@@ -58,24 +62,12 @@ progressIndicatorApp.directive('ngArc', function(){
 			    })
 			    .attr("d", arc_expected);
 
-			/*
-			 * The colors of the outer ring should change to orange or red
-			 * when the actual is more than 25% or 50% behind expected.
-			*/
 			var foreground_actual = svg.append("path")
 			    .datum({endAngle: 0 * tau})
 			    .style("fill", function(d){
-			    	if (attrs.actual  < attrs.expected*.75 && attrs.actual >= attrs.expected*.50){
-			    		return "orange";
-			    	} else if (attrs.actual < attrs.expected*.50){
-			    		return "red";
-			    	} else{
-			    		return "green";
-			    	}
+			    	return get_color();
 			    })
 			    .attr("d", arc_actual);
-
-
 
 			svg.append("text")
 				.text(function(d){
@@ -94,7 +86,6 @@ progressIndicatorApp.directive('ngArc', function(){
 					else if (attrs.actual*100 > 99) return +"+15";
 					else return "+10";
 				})
-				//.attr("x",+10)
 				.attr("y",+1)				
 			svg.append("text").text("Progress")
 				.attr("font-family", "Open Sans")
@@ -108,34 +99,40 @@ progressIndicatorApp.directive('ngArc', function(){
 
 			// Expected rounded arc ends
 		    var start_circle = svg.append("circle") 
-		          .attr('id','circle_expected_start')
-		          .attr("r", ((width/5+5)-(width/5))/2)
-		          .attr('fill',"#6cbb3c")
-		          .attr("cx", arc_expected.centroid({startAngle: 0, endAngle: 0})[0])
-		          .attr("cy", arc_expected.centroid({startAngle: 0, endAngle: 0})[1]);
+		        .attr('id','circle_expected_start')
+		        .attr("r", (expected_outer_r-expected_inner_r)/2)
+		        .attr('fill',"#6cbb3c")
+		        .attr("cx", arc_expected.centroid({startAngle: 0, endAngle: 0})[0])
+		        .attr("cy", arc_expected.centroid({startAngle: 0, endAngle: 0})[1]);
 
 /*
 		    var end_circle = svg.append("circle") 
-		          .attr('id','circle_expected_end')
-		          .attr("r", ((width/5+5)-(width/5))/2)
-		          .attr('fill',"#57893e")
-		          .attr("cx",  arc_expected.centroid({startAngle: 0, endAngle: attrs.expected*tau})[0])
-		          .attr("cy", arc_expected.centroid({startAngle: 0,endAngle: attrs.expected*tau})[1]);
+		        .attr('id','circle_expected_end')
+		        .attr("r", ((width/5+5)-(width/5))/2)
+		        .attr('fill',"#57893e")
+		        .attr("cx",  arc_expected.centroid({startAngle: 0, endAngle: attrs.expected*tau})[0])
+		        .attr("cy", arc_expected.centroid({startAngle: 0,endAngle: attrs.expected*tau})[1]);
 		    end_circle.append("path").datum({endAngle: 0 * tau}).attr("d", arc_expected);
 		    //end_circle.transition().duration(1000).call(arcTween, attrs.expected*tau, arc_expected);
 */
-		    
+
 			// Actual rounded arc ends
 		    var start_circle = svg.append("circle") 
 		          .attr('id','circle_expected_start')
-		          .attr("r", ((width/4+5)-(width/4-3))/2)
+		          .attr("r", (actual_outer_r-actual_inner_r)/2)
 		          .attr('fill',function(d){
-			    	if (attrs.actual  < attrs.expected*.75 && attrs.actual >= attrs.expected*.50) return "orange";
-			    	else if (attrs.actual < attrs.expected*.50) return "red";
-					else return "green";
+					return get_color();
 			    	})
 		          .attr("cx", arc_actual.centroid({startAngle: 0, endAngle: 0})[0])
 		          .attr("cy", arc_actual.centroid({startAngle: 0, endAngle: 0})[1]);
+
+			// The colors of the outer ring should change to orange or red
+			// when the actual is more than 25% or 50% behind expected.
+			function get_color(){
+					if (attrs.actual  < attrs.expected*.75 && attrs.actual >= attrs.expected*.50) return "orange";
+			    	else if (attrs.actual < attrs.expected*.50) return "red";
+					else return "green";
+			};
 
 			function arcTween(transition, newAngle, arc) {
 			  transition.attrTween("d", function(d) {
