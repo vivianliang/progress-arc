@@ -294,29 +294,37 @@ progressIndicatorApp.directive('ngArcDynamic', function(){
 			}
 
             scope.$watch('actual', function(newValue, oldValue) {
-            	
-                if (newValue){
-						local_actual = newValue;
+				if (isNaN(newValue)){
+					alert("Actual value must be between 0 and 1. Decimals must have leading 0.");
+				} else if (newValue){
+					local_actual = newValue;
                 
-			    		foreground_actual.datum({endAngle: oldValue * tau})
-			    			.style("fill", function(d){
-			    				return get_color();
-			    			})
-			    			.attr("d", arc_actual);
+                	// This is a hack for a transition on load with static attributes.
+                	if (newValue === oldValue) oldValue = 0;
+
+		    		foreground_actual.datum({endAngle: oldValue * tau})
+		    			.style("fill", function(d){
+		    				return get_color();
+		    			})
+		    			.attr("d", arc_actual);
 
 					actual_start_cir.attr('fill',function(d){
 							return get_color();
 			    	});
 
 					foreground_actual.transition().duration(1000).call(arcTween, newValue*tau, arc_actual);
-                    console.log("I see a data change! new" +newValue + "old"+ oldValue+"attrs.expected"+attrs.expected);
+                    console.log("Data has changed:" +newValue + "old"+ oldValue);
                 }
             }, true);
 
 			scope.$watch('expected', function(newValue, oldValue) {
-
-                if (newValue){
+				if (isNaN(newValue)){
+					alert("Expected value must be between 0 and 1. Decimals must have leading 0.");
+				} else if (newValue){
                 	local_expected = newValue;
+
+					if (newValue === oldValue) oldValue = 0;
+
 					foreground_expected
 						.datum({endAngle: oldValue * tau})
 					    .style("fill", function(d){
@@ -324,7 +332,7 @@ progressIndicatorApp.directive('ngArcDynamic', function(){
 					    });
 
 					foreground_expected.transition().duration(1000).call(arcTween, newValue*tau, arc_expected);
-                    console.log("I see a data change! new" +newValue + "old"+ oldValue+"attrs.actual"+attrs.actual);
+                    console.log("Data has changed:" +newValue + "old"+ oldValue);
                 }
             }, true);
 			
