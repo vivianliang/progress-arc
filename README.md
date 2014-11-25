@@ -35,6 +35,10 @@ Implementation in CoffeeScript:
 	app/coffeescript/index.html
 	app/coffeescript/coffee_app.coffee compiles to app/coffeescript/coffee_app.js
 
+## Playground (Implementation in progress):
+
+	app/indicator-dynamic.html
+
 ### Unit Tests
 
 	app/app_test.js
