@@ -54,4 +54,10 @@ describe('progressIndicatorApp module', function() {
 
 });
 
-// TODO: tests for green, orange, red based on expected and actual
+// TODO: 
+// - tests for unexpected values: less than 0, greater than 1, non-number
+// - tests for green, orange, red based on expected and actual
+// - test for arc positions
+// - test for text value and percent sign
+
+

@@ -126,22 +126,29 @@ progressIndicatorApp.directive('ngArc', function(){
 					alert("Decimals must have leading 0.");
 				} else if (newValue){
 
+					// The only time oldValue will be out of bounds is if
+					// that's the original value, so we can set newValue and oldValue
+					// at the same time and avoid extra if statements.
 					if (oldValue < 0 || newValue < 0){
 						newValue = 0;
 						oldValue = 0;
 					}
+					if (oldValue > 1 || newValue > 1){
+						newValue = 1;
+						oldValue = 1;
+					}
 
 					local_actual = newValue;
                 
-                	// Transition on load for static attributes.
+                	// Forces transition on load for static attributes.
                 	if (newValue === oldValue) oldValue = 0;
 
+                	// Update actual angle and color
 		    		foreground_actual.datum({endAngle: oldValue * tau})
 		    			.style("fill", function(d){
 		    				return get_color();
 		    			})
 		    			.attr("d", arc_actual);
-
 					actual_start_cir.attr('fill',function(d){
 							return get_color();
 			    	});
@@ -169,11 +176,17 @@ progressIndicatorApp.directive('ngArc', function(){
 						newValue = 0;
 						oldValue = 0;
 					}
+					if (oldValue > 1 || newValue > 1){
+						newValue = 1;
+						oldValue = 1;
+					}
 
                 	local_expected = newValue;
 
+                	// Forces transition on load for static attributes.
 					if (newValue === oldValue) oldValue = 0;
 
+					// Update expected value
 					foreground_expected.datum({endAngle: oldValue * tau});
 
 					// Changes in expected should change color in actual if necessary
