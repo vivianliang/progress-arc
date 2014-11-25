@@ -25,7 +25,9 @@ Example:
 	<input type="number" min="0" max="1" ng-model="actual" placeholder=".5" step=".1">
 	<ng-arc-dynamic actual="actual" expected="expected"></ng-arc-dynamic>
 
-![Alt text](https://github.com/vivianliang/progress-arc/blob/master/arc.png)
+![Alt text](https://github.com/vivianliang/progress-arc/blob/master/arc1.png)
+![Alt text](https://github.com/vivianliang/progress-arc/blob/master/arc2.png)
+(Current arc: Only one end of the arc is rounded, Issue #7)
 
 ## Files
 
