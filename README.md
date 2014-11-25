@@ -19,7 +19,11 @@ have reasonable handling of unexpected values.
 
 Example:
 
-     <ng-arc actual=".50" expected=".75"></ng-arc>
+    <ng-arc actual=".50" expected=".75"></ng-arc>
+
+	<input type="number" min="0" max="1" ng-model="expected" step=".1">
+	<input type="number" min="0" max="1" ng-model="actual" placeholder=".5" step=".1">
+	<ng-arc-dynamic actual="actual" expected="expected"></ng-arc-dynamic>
 
 ![Alt text](https://github.com/vivianliang/progress-arc/blob/master/arc.png)
 
@@ -35,7 +39,7 @@ Implementation in CoffeeScript:
 	app/coffeescript/index.html
 	app/coffeescript/coffee_app.coffee compiles to app/coffeescript/coffee_app.js
 
-## Playground (Implementation in progress):
+## Playground:
 
 	app/indicator-dynamic.html
 
@@ -45,4 +49,14 @@ Implementation in CoffeeScript:
 
 ## Handling of unexpected values
 
+For ng-arc directive:
+
 If "actual" or "expected" attributes are less than 0, not numbers, or not specified, they default to 0. If they are greater than 1, they default to 1.
+
+For ng-arc-dynamic directive:
+
+The user will get an alert for bad behavior.
+
+## Note
+
+ng-arc-dynamic is intended to replace ng-arc. They're only apart for now because the former is not well tested yet.
