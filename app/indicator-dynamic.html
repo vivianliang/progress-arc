@@ -12,21 +12,19 @@
 </head>
 <body ng-controller="IndicatorCtrl">
  
-  <ng-arc actual=".75" expected="1"></ng-arc>
   <ng-arc actual=".50" expected=".75"></ng-arc>
   <p>
-  <ng-arc actual=".49" expected="1"></ng-arc>
-  <ng-arc actual=".10" expected="1"></ng-arc>
-
+ 
   <hr>
 
   <p>
-  Expected: <input type="number" min="0" max="1" ng-model="expected_val" placeholder=".127">
-  {{expected_val}}
+  Expected: <input type="number" min="0" max="1" ng-model="expected" placeholder=".127">
+  {{expected}}
   <p>
-  Actual: <input type="number" min="0" max="1" ng-model="actual_val" placeholder=".5">
-  {{actual_val}}
+  Actual: <input type="number" min="0" max="1" ng-model="actual" placeholder=".5">
+  {{actual}}
   <p>
-  <ng-arc-dynamic actual="{{actual}}" expected="{{expected}}"></ng-arc-dynamic>
+  <ng-arc-dynamic actual="actual" expected="expected"></ng-arc-dynamic>
+
 </body>
 </html>
