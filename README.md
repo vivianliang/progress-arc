@@ -27,6 +27,8 @@ Example:
 
 ![Alt text](https://github.com/vivianliang/progress-arc/blob/master/arc1.png)
 ![Alt text](https://github.com/vivianliang/progress-arc/blob/master/arc2.png)
+
+
 (Current arc: Only one end of the arc is rounded, Issue #7)
 
 ## Files
