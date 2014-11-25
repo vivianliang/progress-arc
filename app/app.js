@@ -175,11 +175,7 @@ progressIndicatorApp.directive('ngArc', function(){
 
 					if (newValue === oldValue) oldValue = 0;
 
-					foreground_expected
-						.datum({endAngle: oldValue * tau})
-					    .style("fill", function(d){
-							return "#6cbb3c";
-					    });
+					foreground_expected.datum({endAngle: oldValue * tau});
 
 					// Changes in expected should change color in actual if necessary
 					foreground_actual
