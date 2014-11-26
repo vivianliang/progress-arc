@@ -16,12 +16,10 @@ progressIndicatorApp.directive('ngArc', function(){
 		},
 		link: function (scope, element, attrs){
 
-		    var local_actual = attrs.actual;
-		    var local_expected = attrs.expected;
-
 			var width = 200,
 				height = 200,
 				tau = 2 * Math.PI;
+
 			var expected_inner_r = width/5,
 				expected_outer_r = width/5+5,
 				actual_inner_r = width/4-3,
@@ -48,13 +46,16 @@ progressIndicatorApp.directive('ngArc', function(){
 				.attr("r", width/6);
 
 			var foreground_expected = svg.append("path")
+				.attr('id','foreground_expected')			
 				.datum({endAngle: 0 * tau})
 			    .style("fill", function(d){
 					return "#6cbb3c";
 			    })
+			    .attr("stroke-linejoin", "round")
 			    .attr("d", arc_expected);
 
 			var foreground_actual = svg.append("path")
+				.attr('id','foreground_actual')
 			    .datum({endAngle: 0 * tau})
 			    .style("fill", function(d){
 			    	return get_color();
@@ -75,7 +76,7 @@ progressIndicatorApp.directive('ngArc', function(){
 				.attr("font-size","12px")
 				.attr("x", function(d){
 					if (attrs.actual*100 < 10) return "+5";
-					else if (attrs.actual*100 > 99) return +"+15";
+					else if (attrs.actual*100 > 99) return "+15";
 					else return "+10";
 				})
 				.attr("y",+1)				
@@ -105,6 +106,9 @@ progressIndicatorApp.directive('ngArc', function(){
 
 			// The colors of the outer ring should change to orange or red
 			// when the actual is more than 25% or 50% behind expected.
+			var local_actual = attrs.actual;
+			var local_expected = attrs.expected;
+
 			function get_color(){
 					if (local_actual  < local_expected*.75 && local_actual >= local_expected*.50) return "orange";
 			    	else if (local_actual < local_expected*.50) return "red";
@@ -119,6 +123,30 @@ progressIndicatorApp.directive('ngArc', function(){
 			      return arc(d);
 			    };
 			  });
+			}
+
+			function setAngle(mySvg, value){
+				mySvg.datum({endAngle: value * tau});
+			}
+			function setStyleColor(mySvg, color_func){
+				mySvg.style("fill", color_func());
+			}
+			function setAttrColor(mySvg, color_func){
+				mySvg.attr("fill", color_func());
+			}
+			function doTransition(mySvg, value, arc){
+				mySvg.transition().duration(1000).call(arcTween, value*tau, arc);
+			}
+			function setPercentage(textSvg, percentSvg, decimal){
+				textSvg.text(function(d){
+						return decimal*100;
+					});
+				percentSvg.attr("x", function(d){
+						if (decimal*100 < 10) return "+5";
+						else if (decimal*100 > 99) return "+15";
+						else return "+10";
+					});
+
 			}
 
             scope.$watch('actual', function(newValue, oldValue) {
@@ -143,29 +171,14 @@ progressIndicatorApp.directive('ngArc', function(){
                 	// Forces transition on load for static attributes.
                 	if (newValue === oldValue) oldValue = 0;
 
-                	// Update actual angle and color
-		    		foreground_actual.datum({endAngle: oldValue * tau})
-		    			.style("fill", function(d){
-		    				return get_color();
-		    			})
-		    			.attr("d", arc_actual);
-					actual_start_cir.attr('fill',function(d){
-							return get_color();
-			    	});
+					setAngle(foreground_actual, oldValue);
+					setStyleColor(foreground_actual, get_color);
+					setAttrColor(actual_start_cir, get_color);
+					setPercentage(text, percent, newValue);
 
-					// Change text and percent sign location
-					text.text(function(d){
-						return newValue*100;
-					});
-					percent.attr("x", function(d){
-						if (newValue*100 < 10) return "+5";
-						else if (newValue*100 > 99) return +"+15";
-						else return "+10";
-					})
-
-					foreground_actual.transition().duration(1000).call(arcTween, newValue*tau, arc_actual);
+					doTransition(foreground_actual, newValue, arc_actual);
                 }
-            }, true);
+            });
 
 			scope.$watch('expected', function(newValue, oldValue) {
 				if (isNaN(newValue)){
@@ -183,25 +196,17 @@ progressIndicatorApp.directive('ngArc', function(){
 
                 	local_expected = newValue;
 
-                	// Forces transition on load for static attributes.
 					if (newValue === oldValue) oldValue = 0;
 
-					// Update expected value
-					foreground_expected.datum({endAngle: oldValue * tau});
+					setAngle(foreground_expected, oldValue);
 
-					// Changes in expected should change color in actual if necessary
-					foreground_actual
-		    			.style("fill", function(d){
-		    				return get_color();
-		    			})
-		    			.attr("d", arc_actual);
-					actual_start_cir.attr('fill',function(d){
-							return get_color();
-			    	});		    			
+					// Update actual arc's color in relation to new expected value
+					setStyleColor(foreground_actual, get_color);
+					setAttrColor(actual_start_cir, get_color);
 
-					foreground_expected.transition().duration(1000).call(arcTween, newValue*tau, arc_expected);
+					doTransition(foreground_expected, newValue, arc_expected);
                 }
-            }, true);
+            });
 			
 
 		}
